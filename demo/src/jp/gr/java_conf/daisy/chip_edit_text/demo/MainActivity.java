@@ -9,18 +9,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import jp.gr.java_conf.daisy.chip_edit_text.ChipEditText;
 import jp.gr.java_conf.daisy.chip_edit_text.ChipItem;
 import jp.gr.java_conf.daisy.chip_edit_text.ChipTextViewHelper;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainActivity extends Activity {
     private ChipItem[] people;
     private ChipAdapter adapter;
     private ChipEditText chipEditText;
+    // When you use ListView.CHOICE_MODE_MULTIPLE, android poses selection state as element
+    // positions. This doesn't go well with some UI stuff like filtering, so here I pose set of
+    // selected people by my own.
+    private Set<ChipItem> selectedPeople = new HashSet<ChipItem>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,25 @@ public class MainActivity extends Activity {
             @Override
             public void onExtraTextChanged(String extraText) {
                 adapter.getFilter().filter(extraText);
+            }
+        });
+        peopleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ChipItem item = adapter.getItem(position);
+                if (selectedPeople.contains(item)) {
+                    chipEditText.getChipTextViewHelper().removeItem(item);
+                    selectedPeople.remove(item);
+                } else {
+                    chipEditText.getChipTextViewHelper().addItem(item);
+                    selectedPeople.add(item);
+                }
+            }
+        });
+        chipEditText.getChipTextViewHelper().setOnNameDeletedListener(new ChipTextViewHelper.OnNameDeletedListener() {
+            @Override
+            public void onNameDeleted(ChipItem item) {
+                selectedPeople.remove(item);
             }
         });
     }
@@ -131,7 +154,11 @@ public class MainActivity extends Activity {
             }
             ChipItem item = getItem(position);
             ((ImageView) convertView.findViewById(R.id.icon)).setImageURI(item.getIconUri());
-            ((TextView) convertView.findViewById(R.id.text)).setText(item.getDisplayName());
+            TextView nameTextView = (TextView) convertView.findViewById(R.id.text);
+            nameTextView.setText(item.getDisplayName());
+            convertView.setBackgroundColor(getResources().getColor(selectedPeople.contains(item)
+                    ? R.color.selected_item_background
+                    : R.color.default_item_background));
             return convertView;
         }
     }
