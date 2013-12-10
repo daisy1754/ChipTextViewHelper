@@ -13,17 +13,31 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import jp.gr.java_conf.daisy.chip_edit_text.ChipEditText;
 import jp.gr.java_conf.daisy.chip_edit_text.ChipItem;
+import jp.gr.java_conf.daisy.chip_edit_text.ChipTextViewHelper;
 
 public class MainActivity extends Activity {
     private ChipItem[] people;
+    private ChipAdapter adapter;
+    private ChipEditText chipEditText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initPeople();
         setContentView(R.layout.main);
-        ((ListView) findViewById(R.id.name_list)).setAdapter(new ChipAdapter(this));
+        ListView peopleList = ((ListView) findViewById(R.id.name_list));
+        chipEditText = (ChipEditText) findViewById(R.id.names_edit_text);
+
+        adapter = new ChipAdapter(this);
+        peopleList.setAdapter(adapter);
+        chipEditText.getChipTextViewHelper().setOnExtraTextChangedListener(new ChipTextViewHelper.OnExtraTextChangedListener() {
+            @Override
+            public void onExtraTextChanged(String extraText) {
+                adapter.getFilter().filter(extraText);
+            }
+        });
     }
 
     private void initPeople() {
