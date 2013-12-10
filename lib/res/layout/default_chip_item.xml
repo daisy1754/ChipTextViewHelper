@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/chip_item_background">
+  <ImageView
+      android:id="@+id/chip_item_icon"
+      android:gravity="center_vertical"
+      android:layout_width="@dimen/chip_item_icon_size"
+      android:layout_height="@dimen/chip_item_icon_size"
+      android:src="@drawable/ic_action_person" />
+  <TextView
+      android:id="@+id/chip_item_name"
+      android:layout_width="wrap_content"
+      android:layout_height="fill_parent"
+      android:gravity="center_vertical"
+      android:background="@color/chip_item_text_background"
+      android:textColor="@color/chip_item_text_color"
+      android:paddingLeft="@dimen/chip_item_name_text_padding_left"
+      android:paddingTop="@dimen/chip_item_name_text_padding_top"
+      android:paddingBottom="@dimen/chip_item_name_text_padding_bottom"
+      android:paddingRight="@dimen/chip_item_name_text_padding_right"
+      android:text="Name" />
+</LinearLayout>
