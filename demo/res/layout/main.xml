@@ -2,13 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-    >
-
-  <TextView
+              android:layout_height="fill_parent">
+  <LinearLayout
       android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="Hello World, MainActivity"
-      />
+      android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@android:drawable/ic_search_category_default"
+        android:layout_gravity="center_vertical" />
+    <jp.gr.java_conf.daisy.chip_edit_text.ChipEditText
+        android:id="@+id/names_edit_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
+  </LinearLayout>
+  <RelativeLayout
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent">
+    <TextView
+        android:id="@+id/notice"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Image used here are from http://uifaces.com/authorized"
+        android:layout_alignParentBottom="true"/>
+    <ListView
+        android:id="@+id/name_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/notice">
+    </ListView>
+  </RelativeLayout>
 </LinearLayout>
 
